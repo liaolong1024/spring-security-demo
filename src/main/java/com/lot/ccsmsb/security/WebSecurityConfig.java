@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
+import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 
 import java.io.PrintWriter;
 
@@ -76,13 +77,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/index.html")
                 .loginProcessingUrl("/login")
-                .successForwardUrl("/hello")
-                // .defaultSuccessUrl("/hello")
+                // .successForwardUrl("/hello") // 该方式配置时, hello对应的http method应该与登录一致， 登录一般为POST, 所以这个应该用@PostMapping
+                .defaultSuccessUrl("/hello") // 该方式配置时， 这个默认是GET方法， 所以/hello应该用@GetMapping注解
                 .failureHandler(myAuthenticationFailureHandler)
                 .and()
                 .csrf().disable()
                 .exceptionHandling()
-                .authenticationEntryPoint(customAuthenticationEntryPoint);
+                .authenticationEntryPoint(customAuthenticationEntryPoint)
+                .and()
+                .rememberMe().rememberMeServices(new TokenBasedRememberMeServices("remember-me-salt", userDetailsService));
     }
 
     public static void main(String[] args) {

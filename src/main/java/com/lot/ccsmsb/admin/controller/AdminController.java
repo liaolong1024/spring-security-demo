@@ -19,7 +19,7 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
-    @PostMapping("/hello")
+    @GetMapping("/hello")
     @WebLog
     public String hello() {
         return "hello";

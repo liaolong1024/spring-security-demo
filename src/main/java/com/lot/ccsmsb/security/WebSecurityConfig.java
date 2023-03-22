@@ -19,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 
 import java.io.PrintWriter;
@@ -41,6 +42,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+
+    @Autowired
+    MySQLPersistentTokenRepository mySQLPersistentTokenRepository;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -87,7 +91,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                 .authenticationEntryPoint(customAuthenticationEntryPoint)
                 .and()
-                .rememberMe().rememberMeServices(new TokenBasedRememberMeServices("remember-me-salt", userDetailsService))
+                .rememberMe()
+                // .rememberMeServices(new TokenBasedRememberMeServices("remember-me-salt", userDetailsService))
+                .rememberMeServices(  // 记住我令牌持久化到数据库中
+                        new PersistentTokenBasedRememberMeServices(
+                                "remember-me-salt",
+                                userDetailsService,
+                                mySQLPersistentTokenRepository
+                        )
+                )
                 .and()
                 .logout()
                 .logoutUrl("/logout")

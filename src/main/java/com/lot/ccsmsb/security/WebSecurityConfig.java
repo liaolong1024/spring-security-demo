@@ -85,7 +85,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                 .authenticationEntryPoint(customAuthenticationEntryPoint)
                 .and()
-                .rememberMe().rememberMeServices(new TokenBasedRememberMeServices("remember-me-salt", userDetailsService));
+                .rememberMe().rememberMeServices(new TokenBasedRememberMeServices("remember-me-salt", userDetailsService))
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/")
+                .deleteCookies();
+
     }
 
     public static void main(String[] args) {

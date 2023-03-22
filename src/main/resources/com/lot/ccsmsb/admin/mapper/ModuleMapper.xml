@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lot.ccsmsb.admin.mapper.ModuleMapper">
+
+
+    <resultMap id="module_role_map" type="com.lot.ccsmsb.entity.SysModules">
+        <id property="moduleId" column="module_id"/>
+        <result property="moduleUrl" column="module_url"></result>
+        <collection property="sysRoles"
+                    ofType="com.lot.ccsmsb.entity.SysRole">
+            <id column="role_id" property="roleId"/>
+            <result column="role_name_cn" property="roleNameCn"/>
+            <result column="role_name_en" property="roleNameEn"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectAllModules" resultMap="module_role_map">
+        select m.*, sr.*
+        from sys_modules m left join sys_role_ref_module rm on m.module_id = rm.module_id left join sys_role sr ON rm.role_id = sr.role_id
+    </select>
+</mapper>

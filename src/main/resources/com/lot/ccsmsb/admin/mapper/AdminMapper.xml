@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lot.ccsmsb.admin.mapper.AdminMapper">
+
+    <select id="selectByAdminName" resultType="com.lot.ccsmsb.entity.SysRole">
+        select r.*
+        from  sys_admin_ref_role ar, sys_role r
+        where ar.arr_admin_id = #{adminId} and ar.arr_role_id = r.role_id
+    </select>
+    <select id="selectUserIdByAdminName" resultType="com.lot.ccsmsb.entity.SysAdmin">
+        select a.* from sys_admin a where a.admin_login_name = #{adminName}
+    </select>
+
+
+</mapper>

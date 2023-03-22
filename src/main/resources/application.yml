@@ -1,0 +1,12 @@
+server:
+  port: 9999
+
+
+# Spring DataSource
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/vhr?useUnicode=true&characterEncoding=UTF-8&serverTimeZone=Asia/Shanghai&useSSL=false
+    username: root
+    password: admin123
+
